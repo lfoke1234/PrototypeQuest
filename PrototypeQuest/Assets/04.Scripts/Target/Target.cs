@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public enum TargetType
 {
@@ -13,13 +14,20 @@ public enum TargetType
 
 public class Target : MonoBehaviour
 {
-    private int currentHealth;
+    public CharacterStat stat;
+
+    protected virtual void Start()
+    {
+        stat = GetComponent<CharacterStat>();
+    }
 
     protected virtual void InteractionEvent()
     {
 
     }
 
-    public void DecreaseHealthWithValue(int value) => currentHealth -= value;
-    public void IncreaseHealthWithValue(int value) => currentHealth += value;
+    public virtual void Die()
+    {
+
+    }
 }

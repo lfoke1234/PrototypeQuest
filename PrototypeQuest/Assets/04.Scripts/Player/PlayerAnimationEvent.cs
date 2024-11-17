@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class PlayerAnimationEvent : MonoBehaviour
 {
-    private PlayerAttack attack;
+    private Player player;
+    [SerializeField] private LayerMask enemyMask;
 
     void Start()
     {
-        attack = GetComponentInParent<PlayerAttack>();
+        player = GetComponentInParent<Player>();
     }
 
-    private void OnTriggerEnter(Collider target)
-    {
-        if (target.GetComponent<Target_Enemy>() != null)
-        {
-
-        }
-    }
-
+    #region Attack
     private void IsAttackOver()
     {
-        attack.SetBusyAttack(false);
+        player.playerAttack.SetBusyAttack(false);
     }
 
-    private void AttackStart()
+    private void BaseAttack()
     {
-        GetComponent<BoxCollider>().enabled = true; 
-    }
+        Collider[] hitColliders = Physics.OverlapBox(
+            player.check.attackChecker.position, 
+            player.check.attackCheckSize, 
+            player.check.attackChecker.rotation, 
+            enemyMask);
 
-    private void AttackEnd()
-    {
-        GetComponent<BoxCollider>().enabled = false;
+        foreach (Collider collider in hitColliders)
+        {
+
+            if (collider.GetComponent<Target_Enemy>() != null)
+            {
+                Target_Enemy enemy = collider.GetComponent<Target_Enemy>();
+                player.stat.DoDamage(enemy.stat);
+            }
+        }
     }
+    #endregion
 }

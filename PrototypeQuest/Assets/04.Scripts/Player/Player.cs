@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Player : MonoBehaviour
 {
@@ -6,6 +7,9 @@ public class Player : MonoBehaviour
     public PlayerInputController playerInput { get; private set; }
     public PlayerMovement playerMovement { get; private set; }
     public PlayerAttack playerAttack { get; private set; }
+    public PlayerCollisionCheck check { get; private set; }
+
+    public CharacterStat stat { get; private set; }
 
     private void Awake()
     {
@@ -13,9 +17,10 @@ public class Player : MonoBehaviour
         playerInput = new PlayerInputController();
         playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
+        check = GetComponent<PlayerCollisionCheck>();
+
+        stat = GetComponent<CharacterStat>();
     }
-
-
 
     private void OnEnable()
     {
@@ -25,5 +30,10 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         playerInput.Disable();
+    }
+
+    public void Die()
+    {
+
     }
 }

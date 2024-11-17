@@ -3,10 +3,26 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Target_Enemy : MonoBehaviour
+public class Target_Enemy : Target
 {
-    private int currentHealth;
+    public override void Die()
+    {
+        for (int i = 0; i < QuestManager.instance.activeQuests.Count; i++)
+        {
+            Quest quest = QuestManager.instance.activeQuests[i];
 
-    public void DecreaseHealthWithValue(int value) => currentHealth -= value;
-    public void IncreaseHealthWithValue(int value) => currentHealth += value;
+            if (quest is Quest_KillTarget killQuest && killQuest.targetType == TargetType.Enemy)
+            {
+                killQuest.amountToKill++;
+
+                if (killQuest.CompletedQuest())
+                {
+                    QuestManager.instance.CompletedQuest(killQuest);
+                    i--;
+                }
+            }
+        }
+    }
+
+
 }
