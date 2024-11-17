@@ -14,7 +14,7 @@ public enum TargetType
 
 public class Target : MonoBehaviour
 {
-    public CharacterStat stat;
+    public CharacterStat stat { get; private set; }
 
     protected virtual void Start()
     {

@@ -28,7 +28,6 @@ public class PlayerAnimationEvent : MonoBehaviour
 
         foreach (Collider collider in hitColliders)
         {
-
             if (collider.GetComponent<Target_Enemy>() != null)
             {
                 Target_Enemy enemy = collider.GetComponent<Target_Enemy>();

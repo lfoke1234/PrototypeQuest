@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (isAttacking) return;
+        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
 
         if (lastAttackTime + 2f < Time.time || attackCount > 1)
         {

@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class Target_NPC : Target
 {
+    [SerializeField] private DialogueTrigger trigger;
+
+    private void Update()
+    {
+        if (Vector3.Distance(transform.position, PlayerManager.instance.player.transform.position) < 2f &&
+            Input.GetKeyDown(KeyCode.E))
+        {
+            InteractionEvent();
+        }
+    }
+
     protected override void InteractionEvent()
     {
-        // TODO => Show Dialogue & Quest
+        trigger.TriggerDialogue();
     }
 }

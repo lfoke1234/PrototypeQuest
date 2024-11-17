@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (player.playerAttack.isAttacking)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
             return;
 
         SetAnimation();
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovetoRay()
     {
-        if (player.playerAttack.isAttacking)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
             return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool MovetoTarget()
     {
-        if (player.playerAttack.isAttacking)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
             return false;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

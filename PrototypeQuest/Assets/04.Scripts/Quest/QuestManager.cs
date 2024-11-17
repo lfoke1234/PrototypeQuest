@@ -38,6 +38,7 @@ public class QuestManager : MonoBehaviour
     {
         if (!activeQuests.Contains(quest))
         {
+            Debug.Log("Start Quest " + quest.name);
             activeQuests.Add(quest);
             quest.StartQuest();
         }
