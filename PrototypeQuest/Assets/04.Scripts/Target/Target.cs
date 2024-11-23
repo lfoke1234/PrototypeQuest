@@ -21,7 +21,7 @@ public class Target : MonoBehaviour
         stat = GetComponent<CharacterStat>();
     }
 
-    protected virtual void InteractionEvent()
+    public virtual void InteractionEvent()
     {
 
     }

@@ -9,13 +9,13 @@ public class Target_NPC : Target
     private void Update()
     {
         if (Vector3.Distance(transform.position, PlayerManager.instance.player.transform.position) < 2f &&
-            Input.GetKeyDown(KeyCode.E))
+            Input.GetKeyDown(KeyCode.F))
         {
             InteractionEvent();
         }
     }
 
-    protected override void InteractionEvent()
+    public override void InteractionEvent()
     {
         trigger.TriggerDialogue();
     }

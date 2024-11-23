@@ -7,7 +7,9 @@ public class CharacterStat : MonoBehaviour
     [SerializeField] private int damage;
 
     [SerializeField] private int health;
-    [SerializeField] private int currentHealth;
+    [SerializeField] private int mana;
+    public int currentHealth;
+    public int currentMana;
 
     public bool isDead;
 
@@ -21,6 +23,11 @@ public class CharacterStat : MonoBehaviour
         return health;
     }
 
+    public int GetMaxMana()
+    {
+        return health;
+    }
+
     public void DoDamage(CharacterStat stat)
     {
         stat.TakeDamageWithValue(damage);
@@ -30,10 +37,12 @@ public class CharacterStat : MonoBehaviour
     {
         currentHealth -= damage;
 
-        if (currentHealth <= 0 && isDead == false)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Die();
+
+            if (isDead == false)
+                Die();
         }
     }
 

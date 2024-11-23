@@ -6,9 +6,12 @@ public class PlayerAnimationEvent : MonoBehaviour
 {
     private Player player;
     [SerializeField] private LayerMask enemyMask;
+    private Animator animator;
 
-    void Start()
+    private void Start()
     {
+        animator = GetComponent<Animator>();
+
         player = GetComponentInParent<Player>();
     }
 
@@ -34,6 +37,18 @@ public class PlayerAnimationEvent : MonoBehaviour
                 player.stat.DoDamage(enemy.stat);
             }
         }
+    }
+    #endregion
+
+    #region Skill
+    private void ESkillEvent()
+    {
+        SkillManager.instance.eSkill.InstantiateSkillEffect();
+    }
+
+    private void ESkillEnd()
+    {
+        player.playerAttack.SetBusyAttack(false);
     }
     #endregion
 }

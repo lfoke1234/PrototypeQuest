@@ -8,10 +8,14 @@ public class PlayerAttack : MonoBehaviour
     private PlayerInputController playerInput;
 
     public bool isAttacking { get; private set; }
-    private int attackCount;
 
+    // Base Attack
+    private int attackCount;
     private float attackTimer;
     private float lastAttackTime;
+
+    // E Skill
+    private float lastUseSkillTime;
 
     private float radious;
 
@@ -24,6 +28,8 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         attackTimer -= Time.deltaTime;
+
+        UseESkill();
     }
 
     private void Attack()
@@ -51,6 +57,27 @@ public class PlayerAttack : MonoBehaviour
         attackCount++;
     }
 
+    public void UseESkill()
+    {
+        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
+
+
+        if (Input.GetKeyDown(KeyCode.E) && SkillManager.instance.eSkill.CanUseSkill())
+        {
+            SetBusyAttack(true);
+            Transform closestEnemy = FindClosestEnemy(5f);
+
+            if (closestEnemy != null)
+            {
+                RotateImmediatelyTowards(closestEnemy.position);
+            }
+
+            SkillManager.instance.eSkill.UseSkill();
+        }
+    }
+
+
+    #region Attack rogic
     private Transform FindClosestEnemy(float range)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
@@ -82,7 +109,7 @@ public class PlayerAttack : MonoBehaviour
 
         transform.rotation = lookRotation;
     }
-
+    #endregion
 
     public void SetBusyAttack(bool busy)
     {

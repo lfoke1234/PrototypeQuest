@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 moveInput { get; private set; }
 
     private Vector3 initLocalPosition;
+    private Target currentTarget; // 현재 이동 중인 타겟
 
     private void Start()
     {
@@ -34,15 +35,27 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
+        {
+            agent.enabled = false;
             return;
+        }
 
         SetAnimation();
 
+        if (agent.enabled && currentTarget != null)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                currentTarget.InteractionEvent();
+                currentTarget = null;
+            }
+        }
+
         MovetoKey();
         ApplyRotation();
-
         ApplyGravity();
     }
+
 
     private void LateUpdate()
     {
@@ -56,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
         if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
             return;
 
+        SyncAgentAndDisableController();
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -64,10 +79,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool MovetoTarget()
+    private Target MovetoTarget()
     {
         if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
-            return false;
+            return null;
+
+        SyncAgentAndDisableController();
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -80,12 +97,24 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Hit Target");
                 agent.enabled = true;
-                agent.destination = hit.point;
-                return true;
+                agent.destination = targetComponent.transform.position;
+                agent.stoppingDistance = 1.5f;
+                return targetComponent;
             }
         }
-        return false;
+        return null;
     }
+
+    private void SyncAgentAndDisableController()
+    {
+        if (characterController.enabled)
+        {
+            characterController.enabled = false;
+            agent.enabled = true;
+            agent.Warp(transform.position);
+        }
+    }
+
     #endregion
 
     #region Key Move
@@ -94,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
             agent.enabled = false;
+            characterController.enabled = true;
 
             movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
 
@@ -107,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
             movementDirection = Vector3.zero;
         }
     }
+
 
     private void ApplyRotation()
     {
@@ -153,9 +184,21 @@ public class PlayerMovement : MonoBehaviour
     {
         playerInput = player.playerInput;
 
-        playerInput.Player.ClickMove.performed += ctx => { if (MovetoTarget()) return; MovetoRay(); };
+        playerInput.Player.ClickMove.performed += ctx =>
+        {
+            Target target = MovetoTarget();
+            if (target != null)
+            {
+                currentTarget = target; // 타겟 저장
+            }
+            else
+            {
+                MovetoRay(); // 타겟이 없으면 일반 이동 처리
+            }
+        };
 
         playerInput.Player.KeyMove.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         playerInput.Player.KeyMove.canceled += ctx => moveInput = Vector2.zero;
     }
+
 }
