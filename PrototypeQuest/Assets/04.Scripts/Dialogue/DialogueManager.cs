@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
+    public Quest currentQuest;
 
     [Header("UI Info")]
     public Image characterIcon;
@@ -26,13 +27,16 @@ public class DialogueManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(gameObject);
+    }
 
+    private void Start()
+    {
         animator = GetComponent<Animator>();
         lines = new Queue<DialogueLine>();
     }
@@ -125,7 +129,11 @@ public class DialogueManager : MonoBehaviour
     {
         isDialgoueActive = false;
         animator.Play("Hide");
-
+        if (currentQuest != null)
+        {
+            QuestManager.instance.AddQuest(currentQuest);
+            currentQuest = null;
+        }
         if (audioSource.isPlaying)
         {
             audioSource.Stop();

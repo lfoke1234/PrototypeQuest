@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,6 +10,12 @@ public class SKill_ESkill : Skill
     private void Awake()
     {
         _pool = new ObjectPool<ESkill_Effect>(CreateEffect, OnGetEffect, OnReleaseEffect, OnDestroyEffect, maxSize: 3);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        // CreateEffect();
     }
 
     public override void UseSkill()

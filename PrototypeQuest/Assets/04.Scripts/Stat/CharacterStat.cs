@@ -16,6 +16,7 @@ public class CharacterStat : MonoBehaviour
     protected virtual void Start()
     {
         currentHealth = health;
+        currentMana = mana;
     }
 
     public int GetMaxHealth()

@@ -34,4 +34,9 @@ public class DialogueTrigger : MonoBehaviour
     {
         DialogueManager.instance.StartDialogue(dialouge);
     }
+
+    public void SetQuest(Quest quest)
+    {
+        DialogueManager.instance.currentQuest = quest;
+    }
 }

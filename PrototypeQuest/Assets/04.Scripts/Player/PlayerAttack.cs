@@ -15,7 +15,6 @@ public class PlayerAttack : MonoBehaviour
     private float lastAttackTime;
 
     // E Skill
-    private float lastUseSkillTime;
 
     private float radious;
 
@@ -86,7 +85,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.GetComponent<Target>())
+            if (collider.GetComponent<Target_Enemy>())
             {
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
                 if (distance < closestDistance)
