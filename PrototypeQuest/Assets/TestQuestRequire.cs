@@ -29,7 +29,6 @@ public class TestQuestRequire : MonoBehaviour
         {
             isTrigged = true;
             Debug.Log("Start Tutorial");
-            // TODO => 
         }
     }
         

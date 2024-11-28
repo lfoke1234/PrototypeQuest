@@ -129,11 +129,13 @@ public class DialogueManager : MonoBehaviour
     {
         isDialgoueActive = false;
         animator.Play("Hide");
+
         if (currentQuest != null)
         {
             QuestManager.instance.AddQuest(currentQuest);
             currentQuest = null;
         }
+
         if (audioSource.isPlaying)
         {
             audioSource.Stop();

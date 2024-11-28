@@ -10,6 +10,8 @@ public class QuestManager : MonoBehaviour
     public List<Quest> activeQuests = new List<Quest>();
     public List<Quest> completedQuests = new List<Quest>();
 
+    [SerializeField] private UI_Quest startQuestUI;
+
     private void Awake()
     {
         if (instance == null)
@@ -38,9 +40,11 @@ public class QuestManager : MonoBehaviour
     {
         if (!activeQuests.Contains(quest))
         {
-            Debug.Log("Start Quest " + quest.name);
             activeQuests.Add(quest);
             quest.StartQuest();
+
+            startQuestUI.gameObject.SetActive(true);
+            startQuestUI.SetQuestInfo(quest, true);
         }
     }
 

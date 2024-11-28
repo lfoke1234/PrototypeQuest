@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackTimer -= Time.deltaTime;
 
-        UseESkill();
+        CheckSkillInput();
     }
 
     private void Attack()
@@ -54,6 +54,12 @@ public class PlayerAttack : MonoBehaviour
         SetBusyAttack(true);
 
         attackCount++;
+    }
+
+    private void CheckSkillInput()
+    {
+        if(ProgressManager.instance.unlockESkill)
+            UseESkill();
     }
 
     public void UseESkill()

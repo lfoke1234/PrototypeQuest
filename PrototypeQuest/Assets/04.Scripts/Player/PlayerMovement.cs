@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 initLocalPosition;
     private Target currentTarget; // 현재 이동 중인 타겟
+    [SerializeField] private bool allStop;
 
     private void Start()
     {
@@ -66,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovetoRay()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop)
             return;
 
         SyncAgentAndDisableController();
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Target MovetoTarget()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop)
             return null;
 
         SyncAgentAndDisableController();
@@ -178,6 +179,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 localVelocity = transform.InverseTransformDirection(velocity);
 
         player.animator.SetFloat("forwardSpeed", localVelocity.z);
+    }
+
+
+    public void Teleport(Vector3 position)
+    {
+        agent.enabled = false;
+        characterController.enabled = false;
+
+        transform.position = position;
+
+        agent.Warp(position);
+        agent.enabled = true;
     }
 
     private void AssignKey()

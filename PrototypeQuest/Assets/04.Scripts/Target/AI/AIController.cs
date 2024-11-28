@@ -47,6 +47,8 @@ public class AIController : MonoBehaviour
                 enemy.animator.SetTrigger("Attack");
                 agent.isStopped = true;
 
+                Vector3 forward = (transform.position - player.transform.position).normalized;
+                transform.forward = forward;
             }
         }
         else

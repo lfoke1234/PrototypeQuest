@@ -17,6 +17,7 @@ public class Target_NPC : Target
 
     public override void InteractionEvent()
     {
+        ProgressManager.instance.unlockESkill = true;
         trigger.TriggerDialogue();
     }
 }

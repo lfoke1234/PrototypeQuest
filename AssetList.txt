@@ -11,3 +11,12 @@ https://assetstore.unity.com/packages/3d/characters/village-houses-pack-63695
 보스: GANFAUL M AURE - Mixamo
 플레이어: LowPoly Survival Character Rio
 https://assetstore.unity.com/packages/3d/characters/humanoids/lowpoly-survival-character-rio-273074#content
+
+4. Particle Pack
+https://assetstore.unity.com/packages/vfx/particles/particle-pack-127325
+
+5. Low-Poly Simple Nature Pack - Objects
+https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
+
+6.Fantasy Defensive Structures - Boss Castle
+https://assetstore.unity.com/packages/3d/environments/fantasy/fantasy-defensive-structures-3307
