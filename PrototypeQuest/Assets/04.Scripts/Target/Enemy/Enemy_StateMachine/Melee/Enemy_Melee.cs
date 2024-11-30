@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,22 +6,34 @@ public struct AttackData
     public float attackRange;
     public float moveSpeed;
     public float attackIndex;
-    [Range(1,2)]
+    [Range(1, 2)]
     public float animationSpeed;
 }
 
 public class Enemy_Melee : Enemy
 {
+    [SerializeField] private bool gizmos;
 
-    public IdleState_Melee idleState {  get; private set; }
+    public IdleState_Melee idleState { get; private set; }
     public MoveState_Melee moveState { get; private set; }
     public RecoveryState_Melee recoveryState { get; private set; }
     public ChaseState_Melee chaseState { get; private set; }
     public AttackState_Melee attackState { get; private set; }
+    public DeadState_Melee deadState { get; private set; }
+    public ThrowState_Melee throwState { get; private set; }
 
     [Header("AttackData")]
     public AttackData attackData;
     public bool typeIsRush;
+    public bool typeIsThrow;
+
+    [Header("Throw Info")]
+    public GameObject throwKnifePrefab;
+    public Transform throwPoint;
+    public float throwingCooldown;
+    public float throwKnifeSpeed;
+    public float throwKnifeTimer;
+    [SerializeField] private GameObject showKinfe;
 
     protected override void Awake()
     {
@@ -35,6 +45,9 @@ public class Enemy_Melee : Enemy
         chaseState = new ChaseState_Melee(this, stateMachine, "Chase");
 
         attackState = new AttackState_Melee(this, stateMachine, "Attack");
+        throwState = new ThrowState_Melee(this, stateMachine, "Throw");
+
+        deadState = new DeadState_Melee(this, stateMachine, "Idle");
     }
 
     protected override void Start()
@@ -51,8 +64,29 @@ public class Enemy_Melee : Enemy
 
     public bool PlayerInAttackRange() => Vector3.Distance(transform.position, player.position) < attackData.attackRange;
 
+    public override void SkillTrigger()
+    {
+        base.SkillTrigger();
+        showKinfe.SetActive(false);
+    }
+
+    public void ShowWeapon()
+    {
+        showKinfe.SetActive(true);
+    }    
+
+    public override void Die()
+    {
+        base.Die();
+        stateMachine.ChangeState(deadState);
+
+    }
+
     protected override void OnDrawGizmos()
     {
+        if (gizmos == false)
+            return;
+
         base.OnDrawGizmos();
 
         Gizmos.color = Color.yellow;

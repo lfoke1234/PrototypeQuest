@@ -55,10 +55,10 @@ public class AttackState_Melee : EnemyState
 
         if (triggerCalled)
         {
-            if (enemy.typeIsRush)
+            //if (enemy.typeIsRush)
                 stateMachine.ChangeState(enemy.recoveryState);
-            else
-                stateMachine.ChangeState(enemy.chaseState);
+            //else
+            //    stateMachine.ChangeState(enemy.chaseState);
         }
     }
 

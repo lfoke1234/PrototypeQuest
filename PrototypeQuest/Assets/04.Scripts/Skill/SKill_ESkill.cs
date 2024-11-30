@@ -15,14 +15,13 @@ public class SKill_ESkill : Skill
     protected override void Start()
     {
         base.Start();
-        // CreateEffect();
     }
 
     public override void UseSkill()
     {
         player.animator.SetTrigger("ESkill");
     }
-
+    
     public void InstantiateSkillEffect()
     {
         var effect = _pool.Get();

@@ -7,10 +7,18 @@ https://assetstore.unity.com/packages/3d/environments/landscapes/terrain-sample-
 2. VILLAGE HOUSES PACK - House Model
 https://assetstore.unity.com/packages/3d/characters/village-houses-pack-63695
 
-3. Character
-보스: GANFAUL M AURE - Mixamo
+3. Player
+
 플레이어: LowPoly Survival Character Rio
 https://assetstore.unity.com/packages/3d/characters/humanoids/lowpoly-survival-character-rio-273074#content
+
+4. Enemy
+잡몹: Ninja - Mixmo
+throwing knife
+https://assetstore.unity.com/packages/3d/props/weapons/free-throwing-knife-179384
+
+보스: GANFAUL M AURE - Mixamo
+
 
 4. Particle Pack
 https://assetstore.unity.com/packages/vfx/particles/particle-pack-127325

@@ -7,6 +7,7 @@ public class ProgressManager : MonoBehaviour
     public static ProgressManager instance;
 
     public bool unlockESkill;
+    public bool unlockQSkill;
 
     private void Start()
     {
@@ -22,5 +23,6 @@ public class ProgressManager : MonoBehaviour
     public void Unlock()
     {
         unlockESkill = true;
+        unlockQSkill = true;
     }
 }

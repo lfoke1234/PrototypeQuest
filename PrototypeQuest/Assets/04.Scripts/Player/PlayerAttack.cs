@@ -15,8 +15,9 @@ public class PlayerAttack : MonoBehaviour
     private float lastAttackTime;
 
     // E Skill
-
     private float radious;
+
+    // QSkill
 
     private void Start()
     {
@@ -27,7 +28,6 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         attackTimer -= Time.deltaTime;
-
         CheckSkillInput();
     }
 
@@ -60,6 +60,9 @@ public class PlayerAttack : MonoBehaviour
     {
         if(ProgressManager.instance.unlockESkill)
             UseESkill();
+
+        if (ProgressManager.instance.unlockQSkill)
+            UseQSkill();
     }
 
     public void UseESkill()
@@ -81,6 +84,23 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void UseQSkill()
+    {
+        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
+
+        Transform closestEnemy = FindClosestEnemy(5f);
+
+        if (closestEnemy != null)
+        {
+            RotateImmediatelyTowards(closestEnemy.position);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && SkillManager.instance.qSkill.CanUseSkill())
+        {
+            SetBusyAttack(true);
+            SkillManager.instance.qSkill.UseSkill();
+        }
+    }
 
     #region Attack rogic
     private Transform FindClosestEnemy(float range)
@@ -91,7 +111,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.GetComponent<Target_Enemy>())
+            if (collider.GetComponentInParent<Enemy>())
             {
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
                 if (distance < closestDistance)

@@ -19,8 +19,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 moveInput { get; private set; }
 
     private Vector3 initLocalPosition;
-    private Target currentTarget; // 현재 이동 중인 타겟
+    private Target currentTarget;
     [SerializeField] private bool allStop;
+    private float verticalVelocity;
 
     private void Start()
     {
@@ -54,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
 
         MovetoKey();
         ApplyRotation();
-        ApplyGravity();
     }
 
 
@@ -126,7 +126,21 @@ public class PlayerMovement : MonoBehaviour
             agent.enabled = false;
             characterController.enabled = true;
 
-            movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
+            // 카메라 기준 이동 방향 계산
+            Transform camTransform = Camera.main.transform;
+            Vector3 forward = camTransform.forward;
+            Vector3 right = camTransform.right;
+
+            // Y축 제거
+            forward.y = 0f;
+            right.y = 0f;
+
+            forward.Normalize();
+            right.Normalize();
+
+            movementDirection = forward * moveInput.y + right * moveInput.x;
+
+            ApplyGravity();
 
             if (movementDirection.magnitude > 0)
             {
@@ -136,15 +150,23 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             movementDirection = Vector3.zero;
+            ApplyGravity();
         }
     }
 
-
     private void ApplyRotation()
     {
-        Vector3 lookDirection = new Vector3(moveInput.x, 0, moveInput.y);
-        lookDirection.y = 0;
-        lookDirection.Normalize();
+        Transform camTransform = Camera.main.transform;
+        Vector3 forward = camTransform.forward;
+        Vector3 right = camTransform.right;
+
+        forward.y = 0;
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 lookDirection = forward * moveInput.y + right * moveInput.x;
 
         if (lookDirection.sqrMagnitude > 0.01f)
         {
@@ -152,14 +174,19 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
     }
+
     #endregion
 
     private void ApplyGravity()
     {
-        if (!characterController.isGrounded)
+        if (characterController.isGrounded == false)
         {
-            movementDirection.y -= 9.81f * Time.deltaTime;
-            characterController.Move(movementDirection * Time.deltaTime);
+            verticalVelocity -= 9.81f * Time.deltaTime;
+            movementDirection.y = verticalVelocity;
+        }
+        else
+        {
+            verticalVelocity = -0.5f;
         }
     }
 
@@ -202,11 +229,11 @@ public class PlayerMovement : MonoBehaviour
             Target target = MovetoTarget();
             if (target != null)
             {
-                currentTarget = target; // 타겟 저장
-            }
+                currentTarget = target;
+            }   
             else
             {
-                MovetoRay(); // 타겟이 없으면 일반 이동 처리
+                MovetoRay();
             }
         };
 

@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerAnimationEvent : MonoBehaviour
 {
     private Player player;
-    [SerializeField] private LayerMask enemyMask;
     private Animator animator;
+
+    [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private float impurceForce;
 
     private void Start()
     {
@@ -31,10 +33,15 @@ public class PlayerAnimationEvent : MonoBehaviour
 
         foreach (Collider collider in hitColliders)
         {
-            if (collider.GetComponent<Target_Enemy>() != null)
+            if (collider.GetComponentInParent<Enemy>() != null)
             {
-                Target_Enemy enemy = collider.GetComponent<Target_Enemy>();
+                Vector3 forceDirection = transform.forward.normalized * impurceForce;
+                Rigidbody rb = collider.GetComponent<Rigidbody>();
+
+                Enemy enemy = collider.GetComponentInParent<Enemy>();
                 player.stat.DoDamage(enemy.stat);
+                // enemy.GetHit();
+                // enemy.HitImpact(forceDirection, rb);
             }
         }
     }
@@ -48,6 +55,17 @@ public class PlayerAnimationEvent : MonoBehaviour
 
     private void ESkillEnd()
     {
+        player.playerAttack.SetBusyAttack(false);
+    }
+
+    private void QSkillEvent()
+    {
+        SkillManager.instance.qSkill.SkillTrigger();
+    }
+
+    private void QSkillEnd()
+    {
+        Debug.Log("QSkillEnd triggered!");
         player.playerAttack.SetBusyAttack(false);
     }
     #endregion

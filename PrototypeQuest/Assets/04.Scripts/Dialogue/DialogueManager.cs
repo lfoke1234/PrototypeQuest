@@ -71,11 +71,6 @@ public class DialogueManager : MonoBehaviour
     {
         isDialgoueActive = true;
 
-        if (dialogue.quest != null)
-        {
-            QuestManager.instance.AddQuest(dialogue.quest);
-        }
-
         animator.Play("Show");
         lines.Clear();
 

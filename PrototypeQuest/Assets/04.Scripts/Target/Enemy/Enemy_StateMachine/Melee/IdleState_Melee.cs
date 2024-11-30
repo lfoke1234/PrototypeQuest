@@ -33,7 +33,7 @@ public class IdleState_Melee : EnemyState
             return;
         }
 
-        if (stateTimer <= 0)
+        if (stateTimer <= 0 && enemy.dontPatrol == false)
             enemy.stateMachine.ChangeState(enemy.moveState);
     }
 }

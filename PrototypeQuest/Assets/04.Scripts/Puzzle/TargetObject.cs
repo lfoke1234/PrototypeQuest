@@ -5,6 +5,7 @@ using UnityEngine;
 public class TargetObject : MonoBehaviour
 {
     private Rigidbody rb;
+    private bool isDestroyObject;
 
     void Start()
     {
@@ -16,7 +17,8 @@ public class TargetObject : MonoBehaviour
         if (rb != null)
         {
             rb.AddExplosionForce(explosionPower, explosionOrigin, explosionRadius, 2f, ForceMode.Impulse);
-            Destroy(gameObject, 2f);
+            if(isDestroyObject)
+                Destroy(gameObject, 2f);
         }
     }
 }

@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,18 +18,22 @@ public class Enemy : MonoBehaviour
     private bool manuallyRotation;
 
     [SerializeField] private Transform[] patrolPoints;
+    public bool dontPatrol;
     private int currentPatrolIndex;
 
-    public NavMeshAgent agent {  get; private set; }
+    public NavMeshAgent agent { get; private set; }
     public EnemyStateMachine stateMachine { get; private set; }
     public Animator animator { get; private set; }
     public Transform player { get; private set; }
-    
+    public EnemyStat stat { get; private set; }
+
+
     protected virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        stat = GetComponent<EnemyStat>();
     }
 
     protected virtual void Start()
@@ -51,19 +53,23 @@ public class Enemy : MonoBehaviour
         animator.transform.localPosition = initLocalPosition;
     }
 
-    public void AnimationTrigger()
-    {
-        stateMachine.currentState.AnimationTrigger();
-    }
 
     public bool PlayerInAggrestionRange() => Vector3.Distance(transform.position, player.position) < aggrestionRange;
-    
+
+    #region Animation Trigger
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
 
     public void ActiveManualMovemet(bool manualMovement) => this.manuallyMovement = manualMovement;
     public bool ManualMovementActive() => manuallyMovement;
 
     public void ActiveManualRotation(bool manualRotation) => this.manuallyRotation = manualRotation;
     public bool ManualRotationActive() => manuallyRotation;
+
+    public virtual void SkillTrigger()
+    {
+        stateMachine.currentState.SkillTrigger();
+    }
+    #endregion
 
     #region Patrol
     private void InitializePatrolPoints()
@@ -87,6 +93,24 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
+    #region Hit
+    public virtual void GetHit()
+    {
+
+    }
+
+    public virtual void HitImpact(Vector3 force, Rigidbody rb)
+    {
+        StartCoroutine(ImpactCourutine(force, rb));
+    }
+
+    private IEnumerator ImpactCourutine(Vector3 force, Rigidbody rb)
+    {
+        yield return new WaitForSeconds(0.1f);
+        rb.AddForce(force, ForceMode.Impulse);
+    }
+    #endregion
+
     public Quaternion FaceTarget(Vector3 target)
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
@@ -98,10 +122,13 @@ public class Enemy : MonoBehaviour
         return Quaternion.Euler(currentEulerAngels.x, yRotation, currentEulerAngels.z);
     }
 
+    public virtual void Die()
+    {
+
+    }
+
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, aggrestionRange);
-
-        
     }
 }

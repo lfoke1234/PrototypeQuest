@@ -38,6 +38,11 @@ public class EnemyState
 
     public void AnimationTrigger() => triggerCalled = true;
 
+    public virtual void SkillTrigger()
+    {
+
+    }
+
     protected Vector3 GetNextPathPoint()
     {
         NavMeshAgent agent = enemyBase.agent;

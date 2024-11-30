@@ -19,4 +19,6 @@ public class EnemyAnimationEvent : MonoBehaviour
     public void StartManualRotation() => enemy.ActiveManualRotation(true);
     public void StopManualRotation() => enemy.ActiveManualRotation(false);
 
+    public void ThrowEvent() => enemy.SkillTrigger();
+
 }

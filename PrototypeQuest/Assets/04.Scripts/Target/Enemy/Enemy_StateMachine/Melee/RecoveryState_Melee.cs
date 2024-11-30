@@ -15,6 +15,12 @@ public class RecoveryState_Melee : EnemyState
     {
         base.Enter();
         enemy.agent.isStopped = true;
+        stateTimer = enemy.throwingCooldown;
+
+        if (enemy.typeIsThrow && enemy.animator.GetFloat("RecoveryIndex") == 1f)
+        {
+            enemy.ShowWeapon();
+        }
     }
 
     public override void Exit()
@@ -26,13 +32,23 @@ public class RecoveryState_Melee : EnemyState
     {
         base.Update();
         enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);
-        
-        if (triggerCalled)
+
+
+        if (triggerCalled && enemy.typeIsThrow == false)
         {
             if (enemy.PlayerInAttackRange())
+            {
                 enemy.stateMachine.ChangeState(enemy.attackState);
+            }
             else
+            {
                 enemy.stateMachine.ChangeState(enemy.chaseState);
+
+            }
+        }
+        else if (stateTimer <= 0 && enemy.typeIsThrow)
+        {
+            enemy.stateMachine.ChangeState(enemy.throwState);
         }
     }
 }

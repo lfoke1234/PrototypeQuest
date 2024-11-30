@@ -22,11 +22,12 @@ public class ESkill_Effect : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explotionRaidous);
         foreach (Collider hitCollider in hitColliders)
         {
-            Target_Enemy target = hitCollider.GetComponent<Target_Enemy>();
+            Enemy target = hitCollider.GetComponentInParent<Enemy>();
             if (target != null)
             {
                 PlayerManager.instance.player.stat.DoDamage(target.stat);
-                target.StartCoroutine(target.Stunned(3));
+                // target.StartCoroutine(target.Stunned(3));
+                // TODO => Stun
             }
 
             TargetObject targetObject = hitCollider.GetComponent<TargetObject>();

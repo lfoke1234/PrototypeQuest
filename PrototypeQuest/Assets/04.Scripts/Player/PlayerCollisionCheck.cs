@@ -8,6 +8,7 @@ public class PlayerCollisionCheck : MonoBehaviour
     public Vector3 attackCheckSize;
 
     public Transform eSkillChecker;
+    public Transform qSkillChecker;
 
     private void OnDrawGizmos()
     {
