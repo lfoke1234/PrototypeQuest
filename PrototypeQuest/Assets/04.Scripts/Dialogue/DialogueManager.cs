@@ -15,7 +15,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI characterName;
     public TextMeshProUGUI dialogueArea;
 
-    private Queue<DialogueLine> lines;
+    public Queue<DialogueLine> lines;
     private string currentLineText;
 
     [Header("Dialogue Info")]
@@ -127,6 +127,7 @@ public class DialogueManager : MonoBehaviour
 
         if (currentQuest != null)
         {
+            Debug.Log("Add Quest " + currentQuest.name);
             QuestManager.instance.AddQuest(currentQuest);
             currentQuest = null;
         }

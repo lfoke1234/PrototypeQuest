@@ -16,7 +16,10 @@ public class Quest_KillTarget : Quest
     public override bool CompletedQuest()
     {
         if (amountToKill >= 3)
+        {
+
             return true;
+        }
 
         return false;
     }

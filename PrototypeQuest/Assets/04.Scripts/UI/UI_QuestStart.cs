@@ -31,11 +31,11 @@ public class UI_Quest : MonoBehaviour
 
         if (isQusetStart)
         {
-            questName.text = "시작\n" + quest.name;
+            questName.text = "시작\n" + quest.questName;
         }
         else
         {
-            questName.text = "완료\n" + quest.name;
+            questName.text = "완료\n" + quest.questName;
         }
     }
 }

@@ -1,16 +1,34 @@
 사용 에셋
 
 
-1. Terrain Sample Asset Pack - Terrain Texture, Brush
+1. Terrian
+
+Terrain Sample Asset Pack - Terrain Texture, Brush
 https://assetstore.unity.com/packages/3d/environments/landscapes/terrain-sample-asset-pack-145808
 
-2. VILLAGE HOUSES PACK - House Model
+
+
+2. Models
+
+VILLAGE HOUSES PACK - House Model
 https://assetstore.unity.com/packages/3d/characters/village-houses-pack-63695
 
-3. Player
+Books
+https://api.unity.com/v1/oauth2/authorize?client_id=asset_store_v2&locale=ko_KR&redirect_uri=https%3A%2F%2Fassetstore.unity.com%2Fauth%2Fcallback%3Fredirect_to%3D%252Fpackages%252F3d%252Fprops%252Finterior%252Fbooks-3356&response_type=code&state=5b9f08d5-2689-4939-83a4-e82f491bc249
 
+Low-Poly Simple Nature Pack
+https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
+
+Fantasy Defensive Structures - Boss Castle
+https://assetstore.unity.com/packages/3d/environments/fantasy/fantasy-defensive-structures-3307
+
+
+
+3. Player
 플레이어: LowPoly Survival Character Rio
 https://assetstore.unity.com/packages/3d/characters/humanoids/lowpoly-survival-character-rio-273074#content
+
+
 
 4. Enemy
 잡몹: Ninja - Mixmo
@@ -20,11 +38,11 @@ https://assetstore.unity.com/packages/3d/props/weapons/free-throwing-knife-17938
 보스: GANFAUL M AURE - Mixamo
 
 
-4. Particle Pack
+
+5. NPC
+Abe - Mixmo
+
+
+
+6. Particle Pack
 https://assetstore.unity.com/packages/vfx/particles/particle-pack-127325
-
-5. Low-Poly Simple Nature Pack - Objects
-https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
-
-6.Fantasy Defensive Structures - Boss Castle
-https://assetstore.unity.com/packages/3d/environments/fantasy/fantasy-defensive-structures-3307

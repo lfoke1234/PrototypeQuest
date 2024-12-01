@@ -111,7 +111,8 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.GetComponentInParent<Enemy>())
+            Enemy enemy = collider.GetComponentInParent<Enemy>();
+            if (enemy != null && enemy.stat.isDead == false)
             {
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
                 if (distance < closestDistance)

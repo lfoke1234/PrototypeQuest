@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ed271c481c13340a80b50b9cf9ec74, type: 3}
   m_Name: Kill
   m_EditorClassIdentifier: 
-  questName: asdf
-  questDescription: asdfew
-  amountToKill: 3
+  questName: "\uCC3E\uC544\uC628 \uC7AC\uB09C"
+  questDescription: "\uC801\uC744 \uCC98\uCE58\uD558\uC138\uC694"
+  amountToKill: 0
   targetType: 2

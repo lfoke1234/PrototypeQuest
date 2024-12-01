@@ -16,7 +16,11 @@ public class QSkill_Effect : MonoBehaviour
     private void Update()
     {
         damageTimer -= Time.deltaTime;
-        target = FindClosestEnemy();
+
+        if (target == null || (target.GetComponent<Enemy>() != null && target.GetComponent<Enemy>().stat.isDead))
+        {
+            target = FindClosestEnemy();
+        }
 
         if (target != null)
         {
@@ -49,12 +53,17 @@ public class QSkill_Effect : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            Enemy enemyComponent = enemy.GetComponent<Enemy>();
 
-            if (distance < closestDistance)
+            if (enemyComponent != null && !enemyComponent.stat.isDead)
             {
-                closestDistance = distance;
-                closestEnemy = enemy.transform;
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemy.transform;
+                }
             }
         }
 
@@ -72,7 +81,7 @@ public class QSkill_Effect : MonoBehaviour
             if (distance <= damageRadius)
             {
                 Enemy enemy = enemyObj.GetComponent<Enemy>();
-                if (enemy != null)
+                if (enemy != null && !enemy.stat.isDead)
                 {
                     enemy.stat.TakeDamageWithValue(damage);
                 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetObject : MonoBehaviour
 {
     private Rigidbody rb;
-    private bool isDestroyObject;
+    [SerializeField] private bool isDestroyObject;
 
     void Start()
     {

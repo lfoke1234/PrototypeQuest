@@ -14,8 +14,10 @@ public class DialogueLine
 {
     public AudioClip clip;
     public DialogueCharacter character;
-    [TextArea(3, 10)]
-    public string line;
+    [TextArea(3, 10)] public string line;
+
+    public bool executeMethod;
+    public string methodName;
 }
 
 [System.Serializable]
@@ -32,6 +34,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
+        PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
         DialogueManager.instance.StartDialogue(dialouge);
     }
 

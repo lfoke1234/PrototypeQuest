@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae1cc2f1237b4b489ef599ace06b180, type: 3}
   m_Name: Time
   m_EditorClassIdentifier: 
-  questName: Time
-  questDescription: 
+  questName: "\uB538 \uAD6C\uCD9C"
+  questDescription: "\uB538\uC744 \uAD6C\uCD9C\uD558\uC138\uC694"
