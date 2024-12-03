@@ -20,9 +20,19 @@ public class ProgressManager : MonoBehaviour
             Unlock();
     }
 
-    public void Unlock()
+    public void UnlockESkill()
     {
         unlockESkill = true;
+    }
+
+    public void UnlockQSkill()
+    {
         unlockQSkill = true;
+    }
+
+    public void Unlock()
+    {
+        UnlockESkill();
+        UnlockQSkill();
     }
 }

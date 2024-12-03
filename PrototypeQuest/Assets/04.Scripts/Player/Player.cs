@@ -3,6 +3,8 @@ using UnityEngine.TextCore.Text;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameObject deadScreen;
+
     public Animator animator { get; private set; }
     public PlayerInputController playerInput { get; private set; }
     public PlayerMovement playerMovement { get; private set; }
@@ -35,5 +37,6 @@ public class Player : MonoBehaviour
     public void Die()
     {
         animator.SetTrigger("Die");
+        deadScreen.SetActive(true);
     }
 }

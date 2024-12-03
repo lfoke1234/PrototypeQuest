@@ -15,6 +15,7 @@ public class Dead_Boss : EnemyState
     {
         base.Enter();
         enemy.agent.isStopped = true;
+        enemy.ending.SetActive(true);
     }
 
     public override void Exit()

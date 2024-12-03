@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Key Move Info")]
     private Vector3 movementDirection;
     public Vector2 moveInput { get; private set; }
+    private bool keyMove;
+
+    [SerializeField] private JoystickHandle joystickHandle;
 
     private Vector3 initLocalPosition;
     private Target currentTarget;
@@ -40,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
         {
             agent.enabled = false;
             return;
+        }
+
+        if (joystickHandle != null && keyMove == false)
+        {
+            moveInput = joystickHandle.InputVector;
         }
 
         SetAnimation();
@@ -176,6 +182,28 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Mobile Touch Move
+
+    public void SetCurrentTarget(Target target)
+    {
+        currentTarget = target;
+        agent.enabled = true;
+        agent.destination = target.transform.position;
+        agent.stoppingDistance = 1.5f;
+    }
+
+    public void MoveToPoint(Ray ray)
+    {
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            SyncAgentAndDisableController();
+            agent.enabled = true;
+            agent.destination = hit.point;
+        }
+    }
+
+    #endregion
+
     private void ApplyGravity()
     {
         if (characterController.isGrounded == false)
@@ -236,8 +264,17 @@ public class PlayerMovement : MonoBehaviour
             }
         };
 
-        playerInput.Player.KeyMove.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        playerInput.Player.KeyMove.canceled += ctx => moveInput = Vector2.zero;
+        playerInput.Player.KeyMove.performed += ctx =>
+        { 
+            moveInput = ctx.ReadValue<Vector2>();
+            keyMove = true;
+        };
+        playerInput.Player.KeyMove.canceled += ctx =>
+        {
+            moveInput = Vector2.zero;
+            keyMove = false;
+        };
+
     }
 
 }

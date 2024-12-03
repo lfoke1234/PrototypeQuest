@@ -1,48 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class JoystickHandle : MonoBehaviour
+public class JoystickHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private RectTransform background;
-    private RectTransform handle;
+    [SerializeField]
+    private RectTransform lever;
+    private RectTransform rectTransform;
+    [SerializeField, Range(10f, 150f)]
+    private float leverRange;
 
-    public Vector2 InputDirection { get; private set; }
+    private Vector2 inputVector;
+    private bool isInput;
 
-    private void Start()
+    private void Awake()
     {
-        background = GetComponent<RectTransform>();
-        handle = transform.GetChild(0).GetComponent<RectTransform>();
-        InputDirection = Vector2.zero;
+        rectTransform = GetComponent<RectTransform>();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        OnDrag(eventData);
+        ControlJoystickLever(eventData);
+        isInput = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 position = Vector2.zero;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(background, eventData.position, eventData.pressEventCamera, out position);
-
-        position.x = (position.x / background.sizeDelta.x);
-        position.y = (position.y / background.sizeDelta.y);
-
-        float x = position.x * 2 - 1;
-        float y = position.y * 2 - 1;
-
-        InputDirection = new Vector2(x, y);
-        InputDirection = (InputDirection.magnitude > 1) ? InputDirection.normalized : InputDirection;
-
-        // Handle 위치 설정
-        handle.anchoredPosition = new Vector2(InputDirection.x * (background.sizeDelta.x / 3), InputDirection.y * (background.sizeDelta.y / 3));
+        ControlJoystickLever(eventData);
+        isInput = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void ControlJoystickLever(PointerEventData eventData)
     {
-        InputDirection = Vector2.zero;
-        handle.anchoredPosition = Vector2.zero;
+        Vector2 localPoint;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out localPoint))
+        {
+            var inputDir = localPoint;
+            var clampedDir = inputDir.magnitude < leverRange ? inputDir
+                : inputDir.normalized * leverRange;
+            lever.anchoredPosition = clampedDir;
+            inputVector = clampedDir / leverRange;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        lever.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+        isInput = false;
+    }
+
+    public Vector2 InputVector
+    {
+        get { return inputVector; }
     }
 }

@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public UI_IngameUI ingameUI;
+
     private void Awake()
     {
         Instance = this;
@@ -13,6 +15,15 @@ public class GameManager : MonoBehaviour
 
     public bool isPlayCutScene { get; private set; }
 
-    public void StartCutScene() => isPlayCutScene = true;
-    public void EndCutScene() => isPlayCutScene = false;
+    public void StartCutScene()
+    {
+        isPlayCutScene = true;
+        ingameUI.DisbleInGameUI();
+    }
+
+    public void EndCutScene()
+    {
+        isPlayCutScene = false;
+        ingameUI.EnableInGameUI();
+    }
 }

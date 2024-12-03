@@ -27,7 +27,9 @@ public class DialogueManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource;
 
-    void Awake()
+    private GraphicRaycaster[] dialogueRaycasters;
+
+    private void Awake()
     {
         if (instance == null)
             instance = this;
@@ -39,6 +41,7 @@ public class DialogueManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         lines = new Queue<DialogueLine>();
+        dialogueRaycasters = GetComponentsInChildren<GraphicRaycaster>();
     }
 
     private void Update()
@@ -80,6 +83,9 @@ public class DialogueManager : MonoBehaviour
         }
 
         DisplayNextDialogueLine();
+
+        GameManager.Instance.ingameUI.DisbleInGameUI();
+        SetAllRaycastTargets(true);
     }
 
     public void DisplayNextDialogueLine()
@@ -135,6 +141,17 @@ public class DialogueManager : MonoBehaviour
         if (audioSource.isPlaying)
         {
             audioSource.Stop();
+        }
+
+        SetAllRaycastTargets(false);
+        GameManager.Instance.ingameUI.EnableInGameUI();
+    }
+
+    private void SetAllRaycastTargets(bool state)
+    {
+        foreach (GraphicRaycaster raycaster in dialogueRaycasters)
+        {
+            raycaster.enabled = state;
         }
     }
 }

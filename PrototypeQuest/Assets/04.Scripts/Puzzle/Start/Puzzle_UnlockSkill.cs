@@ -19,9 +19,15 @@ public class Puzzle_UnlockSkill : MonoBehaviour
         if (DialogueManager.instance.isDialgoueActive == false && a)
         {
             if (q)
+            {
                 ProgressManager.instance.unlockQSkill = true;
+                GameManager.Instance.ingameUI.UnlockQSkill();
+            }
             else
+            {
                 ProgressManager.instance.unlockESkill = true;
+                GameManager.Instance.ingameUI.UnlockESkill();
+            }
 
             tutorial.SetActive(true);
             gameObject.SetActive(false);

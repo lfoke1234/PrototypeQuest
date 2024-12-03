@@ -30,6 +30,8 @@ public class Enemy_Boss : Enemy
     public bool flameActive {  get; private set; }
     public bool dontMove;
 
+    public GameObject ending;
+
     #region State
 
     public IdleState_Boss idleState { get; private set; }

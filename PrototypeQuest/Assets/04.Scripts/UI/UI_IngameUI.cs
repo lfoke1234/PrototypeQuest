@@ -16,6 +16,10 @@ public class UI_IngameUI : MonoBehaviour
     [SerializeField] private Image eImage;
     [SerializeField] private Image qImage;
 
+    [Header("UI")]
+    [SerializeField] private GameObject eSkill;
+    [SerializeField] private GameObject qSkill;
+
     private SkillManager skills;
 
     private void Start()
@@ -73,5 +77,15 @@ public class UI_IngameUI : MonoBehaviour
         {
             item.SetActive(true);
         }
+    }
+
+    public void UnlockESkill()
+    {
+        eSkill.SetActive(true);
+    }
+
+    public void UnlockQSkill()
+    {
+        qSkill.SetActive(true);
     }
 }
