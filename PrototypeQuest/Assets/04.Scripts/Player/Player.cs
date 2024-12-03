@@ -22,12 +22,6 @@ public class Player : MonoBehaviour
         stat = GetComponent<CharacterStat>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-            animator.SetTrigger("Die");
-    }
-
     private void OnEnable()
     {
         playerInput.Enable();

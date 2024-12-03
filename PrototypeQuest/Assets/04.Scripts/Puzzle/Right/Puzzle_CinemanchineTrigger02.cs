@@ -21,7 +21,7 @@ public class Puzzle_CinemanchineTrigger02 : MonoBehaviour
         }
     }
 
-    private IEnumerator SmoothRotate()
+    public IEnumerator SmoothRotate()
     {
         Transform cameraTransform = virtualCamera.transform;
         Quaternion startRotation = cameraTransform.rotation;

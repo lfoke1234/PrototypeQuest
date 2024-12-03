@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: "\uCC3E\uC544\uC628 \uC7AC\uB09C"
   questDescription: "\uC801\uC744 \uCC98\uCE58\uD558\uC138\uC694"
-  amountToKill: 0
+  amountToKill: 3
   targetType: 2

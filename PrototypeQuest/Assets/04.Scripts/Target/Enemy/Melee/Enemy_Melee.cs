@@ -13,6 +13,7 @@ public struct AttackData
 public class Enemy_Melee : Enemy
 {
     [SerializeField] private bool gizmos;
+    public bool dontAttack;
 
     public IdleState_Melee idleState { get; private set; }
     public MoveState_Melee moveState { get; private set; }
@@ -24,6 +25,7 @@ public class Enemy_Melee : Enemy
 
     [Header("AttackData")]
     public AttackData attackData;
+    [SerializeField] private BoxCollider rushCollision;
     public bool typeIsRush;
     public bool typeIsThrow;
 
@@ -34,6 +36,8 @@ public class Enemy_Melee : Enemy
     public float throwKnifeSpeed;
     public float throwKnifeTimer;
     [SerializeField] private GameObject showKinfe;
+
+    [SerializeField] private GameObject slider;
 
     protected override void Awake()
     {
@@ -64,6 +68,9 @@ public class Enemy_Melee : Enemy
 
     public bool PlayerInAttackRange() => Vector3.Distance(transform.position, player.position) < attackData.attackRange;
 
+    public void EnableRushCol() => rushCollision.enabled = true;
+    public void DisableRushCol() => rushCollision.enabled = false;
+
     public override void SkillTrigger()
     {
         base.SkillTrigger();
@@ -78,6 +85,7 @@ public class Enemy_Melee : Enemy
     public override void Die()
     {
         base.Die();
+        slider.SetActive(false);
         stateMachine.ChangeState(deadState);
 
     }

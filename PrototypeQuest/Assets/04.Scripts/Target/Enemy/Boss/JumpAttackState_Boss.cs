@@ -19,18 +19,21 @@ public class JumpAttackState_Boss : EnemyState
     {
         base.Enter();
 
-        enemy.agent.speed = 10;
+        enemy.agent.isStopped = true;
         lastPlayerPosition = enemy.player.position;
+
+        enemy.bossVisual.PlaceLandindZone(lastPlayerPosition);
 
         float distanceToPlayer = Vector3.Distance(lastPlayerPosition, enemy.transform.position);
         jumpAttackMovementSpeed = distanceToPlayer / enemy.timeToTarget;
 
-        enemy.FaceTarget(lastPlayerPosition, 1000);
+        enemy.transform.rotation = enemy.FaceTarget(lastPlayerPosition, 1000);
     }
 
     public override void Exit()
     {
         base.Exit();
+        enemy.UseJumpAttack();
     }
 
     public override void Update()
@@ -46,6 +49,8 @@ public class JumpAttackState_Boss : EnemyState
         }
 
         if (triggerCalled)
+        {
             stateMachine.ChangeState(enemy.moveState);
+        }
     }
 }

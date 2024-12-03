@@ -17,6 +17,8 @@ public class IdleState_Boss : EnemyState
     public override void Enter()
     {
         base.Enter();
+
+        stateTimer = 5f;
     }
 
     public override void Exit()
@@ -28,6 +30,14 @@ public class IdleState_Boss : EnemyState
     {
         base.Update();
 
-        stateMachine.ChangeState(enemy.attackState);
+        if (enemy.PlayerInAttackRange() && GameManager.Instance.isPlayCutScene == false && DialogueManager.instance.isDialgoueActive == false)
+        {
+            stateMachine.ChangeState(enemy.attackState);
+        }
+
+        if (stateTimer <= 0 && GameManager.Instance.isPlayCutScene == false && DialogueManager.instance.isDialgoueActive == false)
+        {
+            stateMachine.ChangeState(enemy.moveState);
+        }
     }
 }

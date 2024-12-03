@@ -49,6 +49,7 @@ public class Puzzle_Platform : MonoBehaviour
     {
         PlayerManager.instance.player.transform.SetParent(null);
         StopAllCoroutines();
+        isPatrolling = false;
         PlayerManager.instance.player.playerMovement.Teleport(spawnPoint.position);
     }
 
@@ -68,7 +69,13 @@ public class Puzzle_Platform : MonoBehaviour
                 yield return null;
             }
 
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            if (currentPatrolIndex == patrolPoints.Length - 1)
+            {
+                EndPuzzle();
+                yield break;
+            }
+
+            currentPatrolIndex++;
 
             //yield return new WaitForSeconds(0.5f);
         }
@@ -100,10 +107,5 @@ public class Puzzle_Platform : MonoBehaviour
         float z = Mathf.Sin(angle * Mathf.Deg2Rad) * spawnRadius + transform.position.z;
 
         return new Vector3(x, transform.position.y + knifeOffsetY, z);
-    }
-
-    public void StopPatrol()
-    {
-        isPatrolling = false;
     }
 }

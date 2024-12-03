@@ -31,6 +31,7 @@ public class RecoveryState_Melee : EnemyState
     public override void Update()
     {
         base.Update();
+
         enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);
 
 

@@ -5,8 +5,9 @@ using UnityEngine;
 public class MoveState_Boss : EnemyState
 {
     Enemy_Boss enemy;
-    bool fast;
+
     private float lastTimeUpdatedDistanation;
+    private float actionTimer;
 
     public MoveState_Boss(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName) : base(enemyBase, stateMachine, animBoolName)
     {
@@ -21,7 +22,9 @@ public class MoveState_Boss : EnemyState
         enemy.agent.isStopped = false;
 
         enemy.agent.SetDestination(enemy.player.position);
+
     }
+
 
     public override void Exit()
     {
@@ -31,14 +34,16 @@ public class MoveState_Boss : EnemyState
     public override void Update()
     {
         base.Update();
+        actionTimer -= Time.time;
 
-        enemy.transform.rotation = enemy.FaceTarget(GetNextPathPoint());
+        enemy.transform.rotation = enemy.FaceTarget(enemy.player.transform.position);
 
-        if (enemy.CanJumpAttack())
+        if (actionTimer <= 0)
         {
-            stateMachine.ChangeState(enemy.jumpAttackState);
+            RandomAction();
         }
-        else if (enemy.PlayerInAttackRange())
+
+        if (enemy.PlayerInAttackRange())
         {
             stateMachine.ChangeState(enemy.attackState);
         }
@@ -58,5 +63,21 @@ public class MoveState_Boss : EnemyState
         }
 
         return false;
+    }
+
+    private void RandomAction()
+    {
+        actionTimer = enemy.actionCooldown;
+
+        if(Random.Range(0,2) == 0)
+        {
+            if (enemy.CanUseFlame())
+                stateMachine.ChangeState(enemy.flameState);
+        }
+        else
+        {
+            if (enemy.CanJumpAttack())
+                stateMachine.ChangeState(enemy.jumpAttackState);
+        }
     }
 }

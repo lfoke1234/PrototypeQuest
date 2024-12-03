@@ -24,6 +24,7 @@ public class ThrowState_Melee : EnemyState
     public override void Update()
     {
         base.Update();
+
         if (enemy.ManualRotationActive())
         {
             enemy.transform.rotation = enemy.FaceTarget(enemy.player.position);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterStat : MonoBehaviour
@@ -11,12 +12,26 @@ public class CharacterStat : MonoBehaviour
     public int currentHealth;
     public int currentMana;
 
+    public System.Action onHealthChanged;
+    
     public bool isDead;
+    private float recoverTimer = 5f;
 
     protected virtual void Start()
     {
         currentHealth = health;
         currentMana = mana;
+    }
+
+    private void Update()
+    {
+        recoverTimer -= Time.deltaTime;
+
+        if (recoverTimer <= 0)
+        {
+            IncreaseHealth(3);
+            recoverTimer = 0.5f;
+        }
     }
 
     public int GetMaxHealth()
@@ -34,8 +49,21 @@ public class CharacterStat : MonoBehaviour
         stat.TakeDamageWithValue(damage);
     }
 
+    public void IncreaseHealth(int amount)
+    {
+        currentHealth += amount;
+
+        if (currentHealth > health)
+            currentHealth = health;
+
+        if (onHealthChanged != null)
+            onHealthChanged();
+    }
+
     public void TakeDamageWithValue(int damage)
     {
+        recoverTimer = 10f;
+
         currentHealth -= damage;
 
         if (currentHealth <= 0)
@@ -45,6 +73,9 @@ public class CharacterStat : MonoBehaviour
             if (isDead == false)
                 Die();
         }
+
+        if (onHealthChanged != null)
+            onHealthChanged();
     }
 
     protected virtual void Die()

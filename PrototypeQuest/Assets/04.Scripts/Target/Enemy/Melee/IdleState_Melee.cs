@@ -27,13 +27,13 @@ public class IdleState_Melee : EnemyState
     {
         base.Update();
 
-        if (enemy.PlayerInAggrestionRange())
+        if (enemy.PlayerInAggrestionRange() && enemy.dontAttack == false)
         {
             stateMachine.ChangeState(enemy.recoveryState);
             return;
         }
 
-        if (stateTimer <= 0 && enemy.dontPatrol == false)
+        if (stateTimer <= 0 && enemy.dontPatrol == false && enemy.dontAttack == false)
             enemy.stateMachine.ChangeState(enemy.moveState);
     }
 }

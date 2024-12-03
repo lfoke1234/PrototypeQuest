@@ -481,7 +481,7 @@ MonoBehaviour:
   aggrestionRange: 9.75
   moveSpeed: 3
   chaseSpeed: 10
-  trunSpeed: 5
+  turnSpeed: 8
   patrolPoints:
   - {fileID: 8336449690663349762}
   - {fileID: 2562370867487093687}

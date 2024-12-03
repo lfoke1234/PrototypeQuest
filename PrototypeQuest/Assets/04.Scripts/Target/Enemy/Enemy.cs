@@ -18,6 +18,11 @@ public class Enemy : MonoBehaviour
     private bool manuallyRotation;
 
     [SerializeField] private Transform[] patrolPoints;
+
+    [Header("Attack Info")]
+    public Transform attackCheck;
+    public Vector3 attackSize;
+
     public bool dontPatrol;
     private int currentPatrolIndex;
 
@@ -135,5 +140,8 @@ public class Enemy : MonoBehaviour
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, aggrestionRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(attackCheck.position, attackSize);
     }
 }

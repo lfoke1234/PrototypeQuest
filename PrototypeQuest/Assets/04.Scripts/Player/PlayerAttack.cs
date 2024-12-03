@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -9,20 +10,24 @@ public class PlayerAttack : MonoBehaviour
 
     public bool isAttacking { get; private set; }
 
-    // Base Attack
     private int attackCount;
     private float attackTimer;
     private float lastAttackTime;
 
-    // E Skill
     private float radious;
 
-    // QSkill
+    [SerializeField] private Button eSkillButton;
+    [SerializeField] private Button qSkillButton;
+    [SerializeField] private Button attackButton;
 
     private void Start()
     {
         player = GetComponent<Player>();
         AssigneKey();
+
+        eSkillButton.onClick.AddListener(() => UseESkillMobile());
+        qSkillButton.onClick.AddListener(() => UseQSkillMobile());
+        attackButton.onClick.AddListener(() => Attack());
     }
 
     private void Update()
@@ -33,7 +38,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
+        if (isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene) return;
 
         if (lastAttackTime + 2f < Time.time || attackCount > 1)
         {
@@ -58,6 +63,9 @@ public class PlayerAttack : MonoBehaviour
 
     private void CheckSkillInput()
     {
+        if (GameManager.Instance.isPlayCutScene)
+            return;
+
         if(ProgressManager.instance.unlockESkill)
             UseESkill();
 
@@ -71,6 +79,25 @@ public class PlayerAttack : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.E) && SkillManager.instance.eSkill.CanUseSkill())
+        {
+            SetBusyAttack(true);
+            Transform closestEnemy = FindClosestEnemy(5f);
+
+            if (closestEnemy != null && isAttacking)
+            {
+                RotateImmediatelyTowards(closestEnemy.position);
+            }
+
+            SkillManager.instance.eSkill.UseSkill();
+        }
+    }
+
+    public void UseESkillMobile()
+    {
+        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
+
+
+        if (SkillManager.instance.eSkill.CanUseSkill())
         {
             SetBusyAttack(true);
             Transform closestEnemy = FindClosestEnemy(5f);
@@ -90,12 +117,30 @@ public class PlayerAttack : MonoBehaviour
 
         Transform closestEnemy = FindClosestEnemy(5f);
 
-        if (closestEnemy != null)
+        if (closestEnemy != null && isAttacking)
         {
             RotateImmediatelyTowards(closestEnemy.position);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && SkillManager.instance.qSkill.CanUseSkill())
+        {
+            SetBusyAttack(true);
+            SkillManager.instance.qSkill.UseSkill();
+        }
+    }
+
+    public void UseQSkillMobile()
+    {
+        if (isAttacking || DialogueManager.instance.isDialgoueActive) return;
+
+        Transform closestEnemy = FindClosestEnemy(5f);
+
+        if (closestEnemy != null)
+        {
+            RotateImmediatelyTowards(closestEnemy.position);
+        }
+
+        if (SkillManager.instance.qSkill.CanUseSkill())
         {
             SetBusyAttack(true);
             SkillManager.instance.qSkill.UseSkill();

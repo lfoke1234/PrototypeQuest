@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene)
         {
             agent.enabled = false;
             return;
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovetoRay()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene)
             return;
 
         SyncAgentAndDisableController();
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Target MovetoTarget()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene)
             return null;
 
         SyncAgentAndDisableController();
@@ -150,7 +150,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             movementDirection = Vector3.zero;
-            ApplyGravity();
         }
     }
 

@@ -43,4 +43,9 @@ public class Skill : MonoBehaviour
     {
 
     }
+
+    public float GetColldownTimer()
+    {
+        return coolDownTimer;
+    }
 }

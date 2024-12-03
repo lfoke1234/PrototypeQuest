@@ -7,7 +7,7 @@ public class Puzzle_UnlockSkill : MonoBehaviour
     [SerializeField] private GameObject tutorial;
     DialogueTrigger trigger;
     bool a;
-    [SerializeField] private bool b;
+    [SerializeField] private bool q;
 
     private void Start()
     {
@@ -18,6 +18,11 @@ public class Puzzle_UnlockSkill : MonoBehaviour
     {
         if (DialogueManager.instance.isDialgoueActive == false && a)
         {
+            if (q)
+                ProgressManager.instance.unlockQSkill = true;
+            else
+                ProgressManager.instance.unlockESkill = true;
+
             tutorial.SetActive(true);
             gameObject.SetActive(false);
         }
@@ -25,15 +30,10 @@ public class Puzzle_UnlockSkill : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<Player>() != null)
+        if (other.GetComponentInParent<Player>() != null && a == false)
         {
             trigger.TriggerDialogue();
             a = true;
-
-            if(b)
-            {
-                ProgressManager.instance.unlockQSkill = true;
-            }
         }
     }
 }

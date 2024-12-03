@@ -43,6 +43,9 @@ public class EnemyThrowKnife : MonoBehaviour
 
         if(player != null)
         {
+            player.stat.TakeDamageWithValue(3
+                );
+
             GameObject newFx = ObjectPool.instance.GetObject(particle);
             newFx.transform.position = transform.position;
 

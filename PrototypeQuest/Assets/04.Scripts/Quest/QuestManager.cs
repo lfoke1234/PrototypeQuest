@@ -54,7 +54,9 @@ public class QuestManager : MonoBehaviour
         {
             activeQuests.Remove(quest);
             completedQuests.Add(quest);
-            Debug.Log($"Quest completed: {quest.questName}");
+
+            startQuestUI.gameObject.SetActive(true);
+            startQuestUI.SetQuestInfo(quest, false);
         }
     }
 

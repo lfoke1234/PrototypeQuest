@@ -6,6 +6,7 @@ using UnityEngine;
 public class Puzzle_GoalObjectTrigger : MonoBehaviour
 {
     [SerializeField] private GameObject platform;
+    [SerializeField] private GameObject platform2;
     [SerializeField] private GameObject[] triggers;
     private CinemachineVirtualCamera virtualCamera;
 
@@ -19,6 +20,7 @@ public class Puzzle_GoalObjectTrigger : MonoBehaviour
         if (other.GetComponent<TargetObject>() != null)
         {
             platform.SetActive(true);
+            platform2.SetActive(true);
             DisableandRotateCamera();
             other.gameObject.SetActive(false);
         }

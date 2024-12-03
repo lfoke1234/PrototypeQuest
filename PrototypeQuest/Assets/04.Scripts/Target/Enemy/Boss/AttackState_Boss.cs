@@ -14,7 +14,6 @@ public class AttackState_Boss : EnemyState
     public override void Enter()
     {
         base.Enter();
-
         enemy.animator.SetFloat("AttackIndex", Random.Range(0, 2));
         enemy.agent.isStopped = true;
     }
@@ -27,6 +26,7 @@ public class AttackState_Boss : EnemyState
     public override void Update()
     {
         base.Update();
+
         if (triggerCalled)
         {
             stateMachine.ChangeState(enemy.moveState);

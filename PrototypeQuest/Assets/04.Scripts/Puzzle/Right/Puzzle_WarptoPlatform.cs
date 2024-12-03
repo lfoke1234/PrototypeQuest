@@ -5,6 +5,7 @@ using UnityEngine;
 public class Puzzle_WarptoPlatform : MonoBehaviour
 {
     [SerializeField] private Transform warpPoint;
+    [SerializeField] private Puzzle_Platform plarfprm;
 
 
     private void OnTriggerEnter(Collider other)
@@ -12,6 +13,7 @@ public class Puzzle_WarptoPlatform : MonoBehaviour
         if (other.GetComponentInParent<Player>() != null)
         {
             PlayerManager.instance.player.playerMovement.Teleport(warpPoint.position);
+            plarfprm.isPatrolling = true;
         }
     }
 }
