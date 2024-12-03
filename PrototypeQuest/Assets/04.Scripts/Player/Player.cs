@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -38,5 +39,14 @@ public class Player : MonoBehaviour
     {
         animator.SetTrigger("Die");
         deadScreen.SetActive(true);
+    }
+
+    public void ResetPlayer()
+    {
+        int recoverHealth = stat.GetMaxHealth() - stat.currentHealth;
+        stat.IncreaseHealth(recoverHealth);
+        stat.isDead = false;
+        animator.SetTrigger("Resurrection");
+        deadScreen.SetActive(false);
     }
 }

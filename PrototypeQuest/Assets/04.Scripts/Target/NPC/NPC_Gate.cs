@@ -8,6 +8,7 @@ public class NPC_Gate : Target_NPC
     [SerializeField]private GameObject timeline;
     [SerializeField]private DialogueTrigger trigger02;
     private float timer;
+    [SerializeField] private GameObject aa;
 
     protected override void Start()
     {
@@ -29,12 +30,15 @@ public class NPC_Gate : Target_NPC
     {
         base.InteractionEvent();
         trigged = true;
+        GameManager.Instance.joystick.ResetJoystick();
+        PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
         timer = 0.5f;
     }
 
     public void TimelineEvent()
     {
         trigger02.TriggerDialogue();
+        aa.SetActive(false);
         GetComponent<NPC_Gate>().enabled = false;
     }
 }

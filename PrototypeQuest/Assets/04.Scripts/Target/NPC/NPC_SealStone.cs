@@ -10,6 +10,8 @@ public class NPC_SealStone : Target_NPC
 
     public override void InteractionEvent()
     {
+        GameManager.Instance.joystick.ResetJoystick();
+        PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
         timeline.SetActive(true);
     }
 

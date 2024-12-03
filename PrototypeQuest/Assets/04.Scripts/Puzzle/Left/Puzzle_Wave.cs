@@ -12,6 +12,7 @@ public class Puzzle_Wave : MonoBehaviour
 {
     [SerializeField] private List<EnemyWave> enemyWavesA;
     [SerializeField] private GameObject SealStone;
+    [SerializeField] private NPC_SealStone stone;
 
     private List<GameObject> currentListA;
     private int currentWave = 0;
@@ -80,6 +81,6 @@ public class Puzzle_Wave : MonoBehaviour
 
     private void Clear()
     {
-        SealStone.GetComponent<Target_NPC>().enabled = true;
+        stone.enabled = true;
     }
 }

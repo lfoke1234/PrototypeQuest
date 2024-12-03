@@ -13,6 +13,7 @@ public class Target_NPC : Target
     [SerializeField] protected float interactionDistance;
 
     [SerializeField] protected Vector3 textOffset = new Vector3(0, 2f, 0);
+    [SerializeField] private Quest quest;
 
     protected override void Start()
     {
@@ -71,5 +72,8 @@ public class Target_NPC : Target
     public override void InteractionEvent()
     {
         trigger.TriggerDialogue();
+
+        if(quest != null)
+            trigger.SetQuest(quest);
     }
 }

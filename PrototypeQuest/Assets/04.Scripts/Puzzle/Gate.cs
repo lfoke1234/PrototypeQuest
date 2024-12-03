@@ -47,6 +47,7 @@ public class Gate : MonoBehaviour
 
         if (clearLeftPuzzle && clearRightPuzzle)
         {
+            GetComponent<BoxCollider>().enabled = false;
             anim.SetTrigger("Open");
         }
     }

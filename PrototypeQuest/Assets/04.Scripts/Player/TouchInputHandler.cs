@@ -18,6 +18,8 @@ public class TouchInputHandler : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
+                Debug.Log("Touch Began");
+
                 if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
                 {
                     return;

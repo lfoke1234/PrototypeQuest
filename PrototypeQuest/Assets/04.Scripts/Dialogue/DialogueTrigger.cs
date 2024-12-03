@@ -35,6 +35,7 @@ public class DialogueTrigger : MonoBehaviour
     public void TriggerDialogue()
     {
         PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
+        GameManager.Instance.joystick.ResetJoystick();
         DialogueManager.instance.StartDialogue(dialouge);
     }
 

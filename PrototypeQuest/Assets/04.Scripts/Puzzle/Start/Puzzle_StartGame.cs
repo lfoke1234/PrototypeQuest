@@ -11,11 +11,11 @@ public class Puzzle_StartGame : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private Quest quest;
 
-    // Start is called before the first frame update
     void Start()
     {
         trigger = GetComponent<DialogueTrigger>();
         StartCoroutine(StartGame());
+        GameManager.Instance.StartCutScene();
     }
 
     private void OnTriggerStay(Collider other)
@@ -24,6 +24,8 @@ public class Puzzle_StartGame : MonoBehaviour
             DialogueManager.instance.isDialgoueActive == false && s && d == false)
         {
             d = true;
+            GameManager.Instance.EndCutScene();
+            GameManager.Instance.joystick.ResetJoystick();
             StartCoroutine(ActiveCanvas());
         }
     }

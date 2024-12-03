@@ -11,6 +11,8 @@ public class QuestManager : MonoBehaviour
     public List<Quest> completedQuests = new List<Quest>();
 
     [SerializeField] private UI_Quest startQuestUI;
+    [SerializeField] private Transform qusetInfoParent;
+    private UI_QuestInfo[] questInfo;
 
     private void Awake()
     {
@@ -18,6 +20,11 @@ public class QuestManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        questInfo = qusetInfoParent.GetComponentsInChildren<UI_QuestInfo>();
     }
 
     private void Update()
@@ -45,6 +52,8 @@ public class QuestManager : MonoBehaviour
 
             startQuestUI.gameObject.SetActive(true);
             startQuestUI.SetQuestInfo(quest, true);
+
+            UpdateQuestUI();
         }
     }
 
@@ -57,9 +66,24 @@ public class QuestManager : MonoBehaviour
 
             startQuestUI.gameObject.SetActive(true);
             startQuestUI.SetQuestInfo(quest, false);
+
+            UpdateQuestUI();
         }
     }
 
+
+    public void UpdateQuestUI()
+    {
+        for (int i = 0; i < questInfo.Length; i++)
+        {
+            questInfo[i].CleanUpSlot();
+        }
+
+        for (int i = 0;i < activeQuests.Count; i++)
+        {
+            questInfo[i].UpdateSlot(activeQuests[i]);
+        }
+    }
     // private void StartQuest() => currentQuest.StartQuest();
 
     // public bool CompletedQuest() => currentQuest.CompletedQuest();

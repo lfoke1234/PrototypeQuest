@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class NPC_Start : Target_NPC
 {
-    [SerializeField] private Quest quest;
+    [SerializeField] private GameObject gameob;
 
     public override void InteractionEvent()
     {
-        ProgressManager.instance.unlockESkill = true;
-        // => E Skill icon Active
-        trigger.TriggerDialogue();
-        trigger.SetQuest(quest);
+        base.InteractionEvent();
+        gameob.SetActive(false);
     }
 }

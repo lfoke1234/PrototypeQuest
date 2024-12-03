@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene || player.stat.isDead)
         {
             agent.enabled = false;
             return;
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovetoRay()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene || player.stat.isDead)
             return;
 
         SyncAgentAndDisableController();
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Target MovetoTarget()
     {
-        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene)
+        if (player.playerAttack.isAttacking || DialogueManager.instance.isDialgoueActive || allStop || GameManager.Instance.isPlayCutScene || player.stat.isDead)
             return null;
 
         SyncAgentAndDisableController();
@@ -102,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (targetComponent != null)
             {
-                Debug.Log("Hit Target");
                 agent.enabled = true;
                 agent.destination = targetComponent.transform.position;
                 agent.stoppingDistance = 1.5f;
@@ -132,12 +131,10 @@ public class PlayerMovement : MonoBehaviour
             agent.enabled = false;
             characterController.enabled = true;
 
-            // 카메라 기준 이동 방향 계산
             Transform camTransform = Camera.main.transform;
             Vector3 forward = camTransform.forward;
             Vector3 right = camTransform.right;
 
-            // Y축 제거
             forward.y = 0f;
             right.y = 0f;
 

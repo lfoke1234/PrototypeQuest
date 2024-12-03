@@ -36,7 +36,8 @@ public class PlayerAnimationEvent : MonoBehaviour
             if (collider.GetComponentInParent<Enemy>() != null)
             {
                 Vector3 forceDirection = transform.forward.normalized * impurceForce;
-                Rigidbody rb = collider.GetComponent<Rigidbody>();
+
+                // Rigidbody rb = collider.GetComponent<Rigidbody>();
 
                 Enemy enemy = collider.GetComponentInParent<Enemy>();
                 player.stat.DoDamage(enemy.stat);

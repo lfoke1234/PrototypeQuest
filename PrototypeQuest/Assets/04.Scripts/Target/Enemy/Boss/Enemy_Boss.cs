@@ -29,6 +29,7 @@ public class Enemy_Boss : Enemy
 
     public bool flameActive {  get; private set; }
     public bool dontMove;
+    [SerializeField] private GameObject hpBar;
 
     public GameObject ending;
 
@@ -89,7 +90,7 @@ public class Enemy_Boss : Enemy
             Player player = hit.GetComponent<Player>();
 
             if (player != null)
-                player.stat.TakeDamageWithValue(10);
+                player.stat.TakeDamageWithValue(25);
         }
     }
 
@@ -153,6 +154,7 @@ public class Enemy_Boss : Enemy
     public override void Die()
     {
         base.Die();
+        hpBar.SetActive(false);
         stateMachine.ChangeState(deadState);
     }
 

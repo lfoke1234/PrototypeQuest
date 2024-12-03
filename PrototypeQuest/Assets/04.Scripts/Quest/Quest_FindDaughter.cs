@@ -1,13 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Quest", menuName = "Data/Quest/Time")]
-public class Quest_MoveToPoint : Quest
+[CreateAssetMenu(fileName = "Quest", menuName = "Data/Quest/FindDaughter")]
+public class Quest_FindDaughter : Quest
 {
-    private float timer;
-
     public override bool CompletedQuest()
     {
-        if (timer <= 0)
+        if (GameManager.Instance.endGame)
             return true;
 
         return false;
@@ -15,12 +13,10 @@ public class Quest_MoveToPoint : Quest
 
     public override void StartQuest()
     {
-        timer = 1f;
     }
 
     public override void UpdateQuest()
     {
         base.UpdateQuest();
-        timer -= Time.deltaTime;
     }
 }

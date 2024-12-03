@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class DialogueManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource;
 
-    private GraphicRaycaster[] dialogueRaycasters;
+    [SerializeField] private Image image;
 
     private void Awake()
     {
@@ -41,7 +42,6 @@ public class DialogueManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         lines = new Queue<DialogueLine>();
-        dialogueRaycasters = GetComponentsInChildren<GraphicRaycaster>();
     }
 
     private void Update()
@@ -143,15 +143,21 @@ public class DialogueManager : MonoBehaviour
             audioSource.Stop();
         }
 
-        SetAllRaycastTargets(false);
-        GameManager.Instance.ingameUI.EnableInGameUI();
+        if (GameManager.Instance.endGame2)
+        {
+            FindObjectOfType<Endging>().GameEnd();
+            GameManager.Instance.endGame = true;
+        }
+
+        if(GameManager.Instance.endGame == false)
+        {
+            SetAllRaycastTargets(false);
+            GameManager.Instance.ingameUI.EnableInGameUI();
+        }
     }
 
     private void SetAllRaycastTargets(bool state)
     {
-        foreach (GraphicRaycaster raycaster in dialogueRaycasters)
-        {
-            raycaster.enabled = state;
-        }
+        image.raycastTarget = state;
     }
 }

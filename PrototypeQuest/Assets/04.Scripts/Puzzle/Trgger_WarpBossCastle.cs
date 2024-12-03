@@ -16,6 +16,8 @@ public class Trgger_WarpBossCastle : MonoBehaviour
         if (other.GetComponentInParent<Player>() != null)
         {
             PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
+            GameManager.Instance.StartCutScene();
+            GameManager.Instance.joystick.ResetJoystick();
             timeline.SetActive(true);
         }
     }
@@ -37,6 +39,7 @@ public class Trgger_WarpBossCastle : MonoBehaviour
         boss.GetComponent<Enemy_Boss>().dontMove = false;
         timeline.SetActive(false);
         vCam.SetActive(false);
+        GameManager.Instance.EndCutScene();
         trigger.TriggerDialogue();
     }
 }

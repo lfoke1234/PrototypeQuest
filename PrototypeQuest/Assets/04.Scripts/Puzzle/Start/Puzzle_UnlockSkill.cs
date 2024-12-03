@@ -29,6 +29,7 @@ public class Puzzle_UnlockSkill : MonoBehaviour
                 GameManager.Instance.ingameUI.UnlockESkill();
             }
 
+            GameManager.Instance.joystick.ResetJoystick();
             tutorial.SetActive(true);
             gameObject.SetActive(false);
         }

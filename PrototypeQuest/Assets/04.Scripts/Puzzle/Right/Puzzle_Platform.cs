@@ -24,9 +24,15 @@ public class Puzzle_Platform : MonoBehaviour
     public bool isPatrolling;
     [SerializeField] private bool trigged;
 
+    [SerializeField] private Transform playerPlatform;
+    [SerializeField] private float playerMovementSpeed = 5f;
+
     private void Start()
     {
         patrolParent.parent = null;
+
+        playerPlatform.SetParent(transform);
+        playerPlatform.localPosition = Vector3.zero;
     }
 
     private void Update()
@@ -36,11 +42,16 @@ public class Puzzle_Platform : MonoBehaviour
             StartPuzzle();
             trigged = true;
         }
+
+        if (isPatrolling)
+        {
+            HandlePlayerInput();
+        }
     }
 
     private void StartPuzzle()
     {
-        PlayerManager.instance.player.transform.SetParent(transform);
+        PlayerManager.instance.player.transform.SetParent(playerPlatform);
         StartCoroutine(Patrol());
         StartCoroutine(SpawnKnives());
     }
@@ -76,8 +87,6 @@ public class Puzzle_Platform : MonoBehaviour
             }
 
             currentPatrolIndex++;
-
-            //yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -108,4 +117,33 @@ public class Puzzle_Platform : MonoBehaviour
 
         return new Vector3(x, transform.position.y + knifeOffsetY, z);
     }
+
+    private void HandlePlayerInput()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        Vector3 movement = new Vector3(horizontal, 0, vertical);
+
+        if (movement.magnitude > 1)
+        {
+            movement.Normalize();
+        }
+
+        movement *= playerMovementSpeed * Time.deltaTime;
+
+        if (movement != Vector3.zero)
+        {
+            Vector3 newPosition = playerPlatform.position + movement;
+
+            float platformWidth = transform.localScale.x / 2;
+            float platformLength = transform.localScale.z / 2;
+
+            newPosition.x = Mathf.Clamp(newPosition.x, transform.position.x - platformWidth, transform.position.x + platformWidth);
+            newPosition.z = Mathf.Clamp(newPosition.z, transform.position.z - platformLength, transform.position.z + platformLength);
+
+            playerPlatform.position = newPosition;
+        }
+    }
+
 }

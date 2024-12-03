@@ -11,6 +11,9 @@ public class Puzzle_StartTraval : MonoBehaviour
     {
         if (other.GetComponentInParent<Player>() != null)
             timeline.SetActive(true);
+
+        GameManager.Instance.joystick.ResetJoystick();
+        PlayerManager.instance.player.animator.SetFloat("forwardSpeed", 0);
     }
 
     public void TriggerDialogue01()

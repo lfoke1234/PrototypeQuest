@@ -49,6 +49,25 @@ public class JoystickHandle : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         isInput = false;
     }
 
+    private void OnEnable()
+    {
+        lever.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+    }
+
+    private void OnDisable()
+    {
+        lever.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+    }
+
+    public void ResetJoystick()
+    {
+        lever.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+        isInput = false;
+    }
+
     public Vector2 InputVector
     {
         get { return inputVector; }

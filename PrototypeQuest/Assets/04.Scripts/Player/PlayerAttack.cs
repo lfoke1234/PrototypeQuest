@@ -38,7 +38,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene) return;
+        if (isAttacking || DialogueManager.instance.isDialgoueActive || GameManager.Instance.isPlayCutScene || player.stat.isDead) return;
 
         if (lastAttackTime + 2f < Time.time || attackCount > 1)
         {
@@ -63,7 +63,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void CheckSkillInput()
     {
-        if (GameManager.Instance.isPlayCutScene)
+        if (GameManager.Instance.isPlayCutScene || player.stat.isDead)
             return;
 
         if(ProgressManager.instance.unlockESkill)
